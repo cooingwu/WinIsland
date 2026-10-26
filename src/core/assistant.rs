@@ -346,7 +346,7 @@ pub fn local_parts(at_ms: u64) -> (i64, u32, u32, u32, u32) {
     let now = crate::platform::shell().local_datetime();
     let utc_now = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
-        .map_or(0, |d| d.as_secs() as i64);
+        .map_or(0, |d| i64::try_from(d.as_secs()).unwrap_or(i64::MAX));
     let local_now = days_from_civil(
         i64::from(now.year),
         u32::from(now.month),
@@ -356,7 +356,7 @@ pub fn local_parts(at_ms: u64) -> (i64, u32, u32, u32, u32) {
         + i64::from(now.minute) * 60
         + i64::from(now.second);
     let offset = ((local_now - utc_now) as f64 / 900.0).round() as i64 * 900;
-    let seconds = (at_ms / 1000) as i64 + offset;
+    let seconds = i64::try_from(at_ms / 1000).unwrap_or(i64::MAX - offset.max(0)) + offset;
     let (year, month, day) = civil_from_days(seconds.div_euclid(86_400));
     let time = seconds.rem_euclid(86_400);
     (
