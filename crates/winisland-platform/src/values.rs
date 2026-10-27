@@ -121,6 +121,8 @@ pub enum Key {
     ArrowDown,
     Tab,
     Delete,
+    Home,
+    End,
     Character(String),
     Other,
 }

@@ -373,6 +373,8 @@ fn platform_event(id: WindowId, event: WindowEvent) -> Option<PlatformEvent> {
                 WinitKey::Named(NamedKey::ArrowDown) => Key::ArrowDown,
                 WinitKey::Named(NamedKey::Tab) => Key::Tab,
                 WinitKey::Named(NamedKey::Delete) => Key::Delete,
+                WinitKey::Named(NamedKey::Home) => Key::Home,
+                WinitKey::Named(NamedKey::End) => Key::End,
                 WinitKey::Character(value) => Key::Character(value.to_string()),
                 _ => Key::Other,
             },

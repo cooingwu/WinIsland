@@ -44,6 +44,8 @@ pub const KEY_LEFT: u32 = 0x25;
 pub const KEY_UP: u32 = 0x26;
 pub const KEY_RIGHT: u32 = 0x27;
 pub const KEY_DOWN: u32 = 0x28;
+pub const KEY_HOME: u32 = 0x24;
+pub const KEY_END: u32 = 0x23;
 pub const KEY_DELETE: u32 = 0x2e;
 
 pub const SURFACE_PAGE: u32 = 1;
