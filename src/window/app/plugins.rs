@@ -279,6 +279,8 @@ impl App {
                     Key::ArrowDown => KEY_DOWN,
                     Key::Tab => KEY_TAB,
                     Key::Delete => KEY_DELETE,
+                    Key::Home => KEY_HOME,
+                    Key::End => KEY_END,
                     Key::Character(value) => {
                         input.data = value.as_bytes().to_vec();
                         value.chars().next().map_or(0, |c| c as u32)
