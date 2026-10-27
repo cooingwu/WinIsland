@@ -217,18 +217,22 @@ impl FontManager {
                 while end < line.len() && line[end].weight == weight && line[end].color == color {
                     end += 1;
                 }
-                let value: String = line[start..end]
-                    .iter()
-                    .map(|glyph| glyph.character)
-                    .collect();
                 let font = &fonts[&weight];
-                params.painter.canvas().draw_str(
-                    &value,
-                    (x, baseline),
-                    font,
-                    &text_paint(color, None),
-                );
-                x += font.measure_str(&value, None).0;
+                let paint = text_paint(color, None);
+                // Draw each glyph at its measured position so the rendered layout
+                // matches the widths plugins compute via the measure API; a whole-run
+                // draw_str can lay out glyphs differently from measureText, drifting
+                // the visible text away from plugin-side carets and selections.
+                for glyph in &line[start..end] {
+                    let mut buffer = [0_u8; 4];
+                    let value = &*glyph.character.encode_utf8(&mut buffer);
+                    let advance = font.measure_str(value, None).0;
+                    params
+                        .painter
+                        .canvas()
+                        .draw_str(value, (x, baseline), font, &paint);
+                    x += advance;
+                }
                 start = end;
             }
         }
